@@ -2,3 +2,5 @@ objs
 *.o
 *.a
 .vscode
+.so
+a.out

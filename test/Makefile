@@ -4,35 +4,26 @@ _GREEN="\033[0;32m"
 _YELLOW="\033[0;33m"
 _CYAN="\033[0;36m"
 
-ifeq ($(HOSTTYPE),)
-	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
-endif
+NAME = a.out
 
-LNAME = libft_malloc.so
-
-SRC = malloc.c
-
-NAME = $(basename $(LNAME))_$(HOSTTYPE).so
+SRC = main.c
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -fPIC
-INC = -Iincludes -I$(dir $(LIB))/includes
+CFLAGS = -Wall -Werror -Wextra
+INC = -I../includes -I../libft/includes
 
-LIB = libft/libft.a
-LIBFLAGS = -Llibft -lft
+LIB = ../libft_malloc.so ../libft/libft.a
+LIBFLAGS = -L../ -lft_malloc -L../libft -lft
 
 SRC_DIR = srcs
 OBJ_DIR = objs
 
-all: $(LNAME)
-
-$(LNAME): $(NAME)
-	@ln -sf $(NAME) $(LNAME)
+all: $(NAME)
 
 $(NAME): $(LIB) $(OBJ_DIR) $(OBJ)
 	@echo $(_GREEN)Compiling $(OBJ)...$(END)
-	@$(CC) $(CFLAGS) -shared $(OBJ) $(LIBFLAGS) -o $@
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFLAGS) -o $@
 
 $(LIB):
 	@make -C $(dir $@)
@@ -55,8 +46,4 @@ fclean: clean
 
 re: fclean all
 
-test: $(NAME)
-	@echo $(_YELLOW)Testing $(NAME)...$(END)
-	@make -C test
-
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re

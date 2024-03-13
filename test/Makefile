@@ -1,49 +1,58 @@
-_END="\033[0m"
-_RED="\033[0;31m"
-_GREEN="\033[0;32m"
-_YELLOW="\033[0;33m"
-_CYAN="\033[0;36m"
+_END=\033[0m
+_RED=\033[0;31m
+_GREEN=\033[0;32m
+_YELLOW=\033[0;33m
+_CYAN=\033[0;36m
 
-NAME = a.out
+NAME = ./a.out
 
 SRC = main.c
-OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
+SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 INC = -I../includes -I../libft/includes
 
-LIB = ../libft_malloc.so ../libft/libft.a
-LIBFLAGS = -L../ -lft_malloc -L../libft -lft
+MALLOC_LIB = ./libft_malloc.so
+LIBFT = ../libft/libft.a
+
+LIB = $(LIBFT) $(MALLOC_LIB)
 
 SRC_DIR = srcs
-OBJ_DIR = objs
 
 all: $(NAME)
 
-$(NAME): $(LIB) $(OBJ_DIR) $(OBJ)
-	@echo $(_GREEN)Compiling $(OBJ)...$(END)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFLAGS) -o $@
+$(NAME): $(LIB)
+	@printf "$(_GREEN)Compiling $(SRCS)...$(_END)\n"
+	@$(CC) $(CFLAGS) $(SRCS) $(LIB) $(INC) -o $@
 
-$(LIB):
+real: $(LIBFT)
+	@printf "$(_GREEN)Compiling $(SRCS)...$(_END)\n"
+	@$(CC) $(CFLAGS) $(SRCS) $(LIBFT) $(INC) -o real
+	@./real
+
+%.a:
 	@make -C $(dir $@)
 
-$(OBJ_DIR):
-	@mkdir -p $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@echo $(_CYAN)Compiling $<...$(END)
-	@$(CC) -o $@ -c $< $(CFLAGS) $(INC)
+./libft_malloc.so:
+	@make -C ..
+	@cp ../libft_malloc.so .
 
 clean:
-	@echo $(_YELLOW)Cleaning $(OBJ)...$(END)
+	@printf "$(_YELLOW)Cleaning $(LIB)...$(_END)\n"
 	@make -C $(dir $(LIB)) fclean
-	@rm -rf $(OBJ_DIR)
+	@rm -f real
 
 fclean: clean
-	@echo $(_RED)Cleaning $(NAME)...$(END)
-	@rm -f $(NAME) $(LNAME)
+	@printf "$(_RED)Cleaning $(NAME)...$(_END)\n"
+	@rm -f $(NAME) 
 
 re: fclean all
 
-.PHONY: all clean fclean re
+run:
+	@./$(NAME)
+
+runv:
+	@valgrind --soname-synonyms=somalloc=libft_malloc.so ./$(NAME)
+
+.PHONY: all clean fclean re run real

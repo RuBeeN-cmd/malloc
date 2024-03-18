@@ -2,7 +2,20 @@
 
 int main()
 {
-	void	*ptr = malloc(1);
+	void	*ptr;
+	for (int i = 0; i < 200; i++)
+	{
+		ptr = malloc(i % 100);
+	}
+	
+	ptr = malloc(100);
+	ptr = malloc(130);
+	ptr = malloc(150);
+	ptr = malloc(200);
+	ptr = malloc(1000);
+	ptr = malloc(8000);
+	ptr = malloc(12000);
+	ptr = malloc(16000);
 	ft_printf("ptr = %p\n", ptr);
 	return 0;
 }

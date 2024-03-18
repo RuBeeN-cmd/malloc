@@ -16,7 +16,7 @@
 #define C_WHT		"\x1b[37m"
 #define C_RESET		"\x1b[0m"
 
-#define PREFIX		C_CYN"[ft_malloc] "
+#define PREFIX		C_CYN"[ft_malloc] "C_RESET
 
 #define PT_TINY		0
 #define PT_SMALL	1
@@ -41,17 +41,19 @@ typedef struct s_block_hdr	t_block_hdr;
 
 struct s_block_hdr
 {
-	uint32_t	size;
+	uint64_t	size;
 };
 
 struct __attribute__((packed)) s_page_hdr
 {
 	uint32_t	block_size;
 	uint32_t	block_num;
-	t_page_hdr		*next;
+	t_page_hdr	*next;
 };
 
 void	*malloc(size_t size);
 void	free(void *ptr);
+
+void	print_pages(t_page_hdr *page);
 
 #endif

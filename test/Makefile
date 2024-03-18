@@ -13,7 +13,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 INC = -I../includes -I../libft/includes
 
-MALLOC_LIB = ./libft_malloc.so
+MALLOC_LIB = ../libft_malloc.so
 LIBFT = ../libft/libft.a
 
 LIB = $(LIBFT) $(MALLOC_LIB)
@@ -31,16 +31,12 @@ real: $(LIBFT)
 	@$(CC) $(CFLAGS) $(SRCS) $(LIBFT) $(INC) -o real
 	@./real
 
-%.a:
+%.a %.so:
 	@make -C $(dir $@)
-
-./libft_malloc.so:
-	@make -C ..
-	@cp ../libft_malloc.so .
 
 clean:
 	@printf "$(_YELLOW)Cleaning $(LIB)...$(_END)\n"
-	@make -C $(dir $(LIB)) fclean
+	@make -C $(dir $(LIBFT)) fclean
 	@rm -f real
 
 fclean: clean

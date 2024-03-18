@@ -10,7 +10,8 @@ endif
 
 LNAME = libft_malloc.so
 
-SRC = malloc.c
+SRC = malloc.c \
+		print.c
 
 NAME = $(basename $(LNAME))_$(HOSTTYPE).so
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
@@ -53,12 +54,13 @@ clean:
 fclean: clean
 	@printf "$(_RED)Cleaning $(NAME)...$(_END)\n"
 	@rm -f $(NAME) $(LNAME)
+	@make -C test fclean
 
 re: fclean all
 
 test: $(LNAME)
 	@printf "$(_YELLOW)Testing $(LNAME)...$(_END)\n"
-	@make -C test
+	@make -C test re
 	@make -C test run
 
 testv: $(LNAME)

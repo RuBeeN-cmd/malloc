@@ -2,21 +2,22 @@
 
 t_page_hdr	*g_page = NULL;
 
-t_page_hdr	*get_page(t_page_hdr *page, void *block)
-{
-	if (!page)
-		return (NULL);
-	if (block < page || block >= ((void *) (page + 1)) + page->block_num * (page->block_size + BLOCK_META_SIZE))
-		return (get_page(page->next, block));
-	return (page);
-}
+// t_page_hdr	*get_page(t_page_hdr *page, void *block)
+// {
+// 	if (!page)
+// 		return (NULL);
+// 	if (block < page || block >= ((void *) (page + 1)) + page->block_num * (page->block_size + BLOCK_META_SIZE))
+// 		return (get_page(page->next, block));
+// 	return (page);
+// }
 
 void	free(void *ptr)
 {
-	t_page_hdr	*page = get_page(g_page, ptr);
-	if (!page)
-		return ;
-	t_block_hdr *block_hdr = ptr + page->block_size;
+	(void) ptr;
+	// t_page_hdr	*page = get_page(g_page, ptr);
+	// if (!page)
+	// 	return ;
+	// t_block_hdr *block_hdr = ptr + page->block_size;
 }
 
 void	*get_block(t_page_hdr *page)

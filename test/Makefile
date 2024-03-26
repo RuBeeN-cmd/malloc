@@ -10,7 +10,7 @@ SRC = main.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g3
 INC = -I../includes -I../libft/includes
 
 MALLOC_LIB = ../libft_malloc.so

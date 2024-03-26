@@ -19,13 +19,11 @@ void	print_blocks(t_page_hdr *page)
 	}
 }
 
-void	print_pages(t_page_hdr *page)
+void	show_alloc_mem()
 {
-	if (!page)
-		return ;
-	print_addresses(page);
-	print_blocks(page);
-	if (page->next)
+	print_addresses(g_page);
+	print_blocks(g_page);
+	if (g_page->next)
 		ft_printf("\n");
-	print_pages(page->next);
+	show_alloc_mem(g_page->next);
 }

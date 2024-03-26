@@ -55,10 +55,14 @@ extern t_page_hdr	*g_page;
 
 void	*malloc(size_t size);
 void	free(void *ptr);
+void	*realloc(void *ptr, size_t size);
 
 void	show_alloc_mem();
 
 t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, uint16_t block_size, uint16_t block_num);
 t_page_hdr	*init_page(size_t page_size, uint16_t block_size, uint16_t block_num);
+t_page_hdr	*get_page(t_page_hdr *page, void *block);
+int			is_in_page(t_page_hdr *page, void *block);
+int			is_empty_page(t_page_hdr *page);
 
 #endif

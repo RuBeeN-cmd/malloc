@@ -11,7 +11,9 @@ endif
 LNAME = libft_malloc.so
 
 SRC = malloc.c \
-		print.c
+		print.c \
+		page.c \
+		free.c
 
 NAME = $(basename $(LNAME))_$(HOSTTYPE).so
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

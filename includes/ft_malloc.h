@@ -51,9 +51,14 @@ struct __attribute__((packed)) s_page_hdr
 	t_page_hdr	*next;
 };
 
+extern t_page_hdr	*g_page;
+
 void	*malloc(size_t size);
 void	free(void *ptr);
 
 void	print_pages(t_page_hdr *page);
+
+t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, uint16_t block_size, uint16_t block_num);
+t_page_hdr	*init_page(size_t page_size, uint16_t block_size, uint16_t block_num);
 
 #endif

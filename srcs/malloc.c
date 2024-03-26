@@ -77,7 +77,6 @@ void	*malloc(size_t size)
 		block = define_block(size, SMALL_PAGE_SIZE, SMALL_BLOCK_SIZE, SMALL_BLOCK_NUM);
 	else
 		block = define_block(size, ((size + PAGE_META_SIZE + BLOCK_META_SIZE) + PAGE_SIZE - 1) / PAGE_SIZE * PAGE_SIZE, size, 1);
-	show_alloc_mem();
 	return (block);
 }
 

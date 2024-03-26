@@ -21,7 +21,7 @@ int	is_alloc(t_page_hdr *page, void *block)
 	{
 		block_hdr = current_block + page->block_size;
 		if (current_block == block)
-			return (!block_hdr->size);
+			return (block_hdr->size != 0);
 		current_block = block_hdr + 1;
 	}
 	return (0);
@@ -73,8 +73,7 @@ void	free(void *ptr)
 		// Invalid free
 		return ;
 	}
-	t_block_hdr *block_hdr = ptr + page->block_size;
-	ft_bzero(ptr, block_hdr->size + BLOCK_META_SIZE);
+	ft_bzero(ptr, page->block_size + BLOCK_META_SIZE);
 	if (is_empty_page(page))
 		free_page(&g_page, page);
 }

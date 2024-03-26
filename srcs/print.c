@@ -21,9 +21,14 @@ void	print_blocks(t_page_hdr *page)
 
 void	show_alloc_mem()
 {
-	print_addresses(g_page);
-	print_blocks(g_page);
-	if (g_page->next)
-		ft_printf("\n");
-	show_alloc_mem(g_page->next);
+	t_page_hdr	*page = g_page;
+	
+	while (page)
+	{
+		print_addresses(page);
+		print_blocks(page);
+		if (page->next)
+			ft_printf("\n");
+		page = page->next;
+	}
 }

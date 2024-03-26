@@ -29,8 +29,8 @@ t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, uint16_t block_size, u
 		return (NULL);
 	if (!current)
 	{
-		current = new_page;
-		return (current);
+		*page = new_page;
+		return (*page);
 	}
 	while (current && current->next)
 		current = current->next;

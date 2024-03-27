@@ -36,19 +36,12 @@ void	*find_block(t_page_hdr *page, uint32_t block_size)
 void	*define_block(uint64_t size, size_t page_size, uint16_t block_size, uint16_t block_num)
 {
 	t_block_hdr	*block_hdr;
-	void		*block;
+	void		*block = NULL;
 	t_page_hdr	*page = g_page;
 	
 	if (block_num != 1)
-	{
 		block = find_block(g_page, block_size);
-		if (!block)
-		{
-			page = add_page(&g_page, page_size, block_size, block_num);
-			block = page + 1;
-		}
-	}
-	else
+	if (!block)
 	{
 		page = add_page(&g_page, page_size, block_size, block_num);
 		block = page + 1;

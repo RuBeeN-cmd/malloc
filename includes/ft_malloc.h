@@ -18,11 +18,6 @@
 
 #define PREFIX		C_CYN"[ft_malloc] "C_RESET
 
-#define PT_TINY		0
-#define PT_SMALL	1
-#define PT_LARGE	2
-#define PT_NUM		3
-
 #define PAGE_SIZE				getpagesize()
 #define TINY_BLOCK_SIZE			128 - BLOCK_META_SIZE
 #define SMALL_BLOCK_SIZE		1024 - BLOCK_META_SIZE

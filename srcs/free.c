@@ -23,7 +23,6 @@ void	free_page(t_page_hdr **page, t_page_hdr *page_to_free)
 
 void	free(void *ptr)
 {
-	ft_printf("block = %p\n", ptr);
 	if (!ptr)
 	{
 		// Invalid free

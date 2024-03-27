@@ -10,7 +10,7 @@ SRC = main.c
 SRCS = $(addprefix $(SRC_DIR)/, $(SRC))
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 INC = -I../includes -I../libft/includes
 
 MALLOC_LIB = ../libft_malloc.so
@@ -49,6 +49,6 @@ run:
 	@./$(NAME)
 
 runv:
-	@valgrind --soname-synonyms=somalloc=libft_malloc.so ./$(NAME)
+	./run.sh valgrind --leak-check=full --soname-synonyms=somalloc=libft_malloc.so ./$(NAME)
 
 .PHONY: all clean fclean re run real

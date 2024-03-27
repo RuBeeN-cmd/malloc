@@ -26,7 +26,8 @@ void	*realloc_block(void *ptr, size_t size, t_block_hdr *block_hdr)
 		// Malloc failed
 		return (NULL);
 	}
-	ft_memcpy(new_ptr, ptr, block_hdr->size);
+	size_t	copy_size = block_hdr->size < size ? block_hdr->size : size;
+	ft_memcpy(new_ptr, ptr, copy_size);
 	free(ptr);
 	return (new_ptr);
 }

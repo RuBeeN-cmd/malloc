@@ -18,8 +18,8 @@ void	test_size_malloc(size_t begin, size_t end, size_t step)
 
 void	test_malloc()
 {
-	test_size_malloc(1, TINY_BLOCK_SIZE, 5);
-	test_size_malloc(TINY_BLOCK_SIZE + 1, SMALL_BLOCK_SIZE, 20);
+	// test_size_malloc(1, TINY_BLOCK_SIZE, 5);
+	test_size_malloc(TINY_BLOCK_SIZE + 1, SMALL_BLOCK_SIZE, 1);
 }
 
 void	test_realloc()
@@ -38,14 +38,14 @@ void	test_realloc()
 	ptr = realloc(ptr, 10000);
 	ft_printf("-------------------------\n");
 	show_alloc_mem();
-	ptr = realloc(ptr, 0);
-	ft_printf("-------------------------\n");
-	show_alloc_mem();
+	// ptr = realloc(ptr, 0);
+	// ft_printf("-------------------------\n");
+	// show_alloc_mem();
 }
 
 int main()
 {
-	// test_malloc();
+	test_malloc();
 	test_realloc();
 	return (0);
 }

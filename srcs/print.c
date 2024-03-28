@@ -1,10 +1,9 @@
 #include "ft_malloc.h"
 
-void	print_addresses(t_page_hdr *page)
-{
-	ft_printf(PREFIX"Page Hdr : "C_BLU"%p\n"C_RESET, page);
-}
-
+/**
+ * @brief The print_blocks() function prints the blocks.
+ * @param page The page to check.
+*/
 void	print_blocks(t_page_hdr *page)
 {
 	void		*block = page + 1;
@@ -19,13 +18,16 @@ void	print_blocks(t_page_hdr *page)
 	}
 }
 
+/**
+ * @brief The show_alloc_mem() function displays the memory allocated.
+*/
 void	show_alloc_mem()
 {
 	t_page_hdr	*page = g_page;
 	
 	while (page)
 	{
-		print_addresses(page);
+		ft_printf(PREFIX"Page Hdr : "C_BLU"%p\n"C_RESET, page);
 		print_blocks(page);
 		if (page->next)
 			ft_printf("\n");

@@ -1,5 +1,10 @@
 #include "ft_malloc.h"
 
+/**
+ * @brief The free_page() function frees a page.
+ * @param page The page list to free.
+ * @param page_to_free The page to free.
+*/
 void	free_page(t_page_hdr **page, t_page_hdr *page_to_free)
 {
 	t_page_hdr	*current_page = *page;
@@ -21,6 +26,10 @@ void	free_page(t_page_hdr **page, t_page_hdr *page_to_free)
 	}
 }
 
+/**
+ * @brief The free() function frees the memory space pointed to by ptr.
+ * @param ptr The pointer to the memory that needs to be freed.
+*/
 void	free(void *ptr)
 {
 	if (!ptr)

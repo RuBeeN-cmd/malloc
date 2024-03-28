@@ -1,5 +1,11 @@
 #include "ft_malloc.h"
 
+/**
+ * @brief The get_block_hdr() function gets a block header from a block.
+ * @param page The page to check.
+ * @param block The block to check.
+ * @return On success, a pointer to the memory block allocated by the function. NULL otherwise.
+ */
 t_block_hdr	*get_block_hdr(t_page_hdr *page, void *block)
 {
 	t_block_hdr	*block_hdr;
@@ -18,6 +24,13 @@ t_block_hdr	*get_block_hdr(t_page_hdr *page, void *block)
 	return (NULL);
 }
 
+/**
+ * @brief The realloc_block() function reallocates a block of memory.
+ * @param ptr The pointer to the memory block that needs to be reallocated.
+ * @param size The new size of the memory block.
+ * @param block_hdr The block header.
+ * @return On success, a pointer to the memory block allocated by the function. NULL otherwise.
+*/
 void	*realloc_block(void *ptr, size_t size, t_block_hdr *block_hdr)
 {
 	void	*new_ptr = malloc(size);
@@ -32,6 +45,12 @@ void	*realloc_block(void *ptr, size_t size, t_block_hdr *block_hdr)
 	return (new_ptr);
 }
 
+/**
+ * @brief The realloc() function changes the size of the memory block pointed to by ptr to size bytes.
+ * @param ptr The pointer to the memory block that needs to be reallocated.
+ * @param size The new size of the memory block.
+ * @return On success, a pointer to the memory block allocated by the function. NULL otherwise.
+ */
 void	*realloc(void *ptr, size_t size)
 {
 	if (!ptr)

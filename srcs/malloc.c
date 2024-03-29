@@ -1,9 +1,7 @@
 #include "ft_malloc.h"
 
-/**
- * @brief The g_page variable is a pointer to the first page.
-*/
 t_page_hdr	*g_page = NULL;
+pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /**
  * @brief The find_free_block() function finds a free block of memory.

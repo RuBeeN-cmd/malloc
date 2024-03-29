@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #define C_RED		"\x1b[31m"
 #define C_GRN		"\x1b[32m"

@@ -1,4 +1,4 @@
-#include "ft_malloc.h"
+#include "malloc.h"
 
 /**
  * @brief The print_blocks() function prints the blocks.
@@ -13,7 +13,7 @@ void	print_blocks(t_page_hdr *page)
 	{
 		block_hdr = block + page->block_size;
 		if (block_hdr->size)
-			ft_printf(PREFIX"Block: "C_BLU"%p"C_RESET" - Block_hdr: "C_BLU"%p"C_RESET" - size: "C_BLU"%u"C_RESET"\n", block, block_hdr, block_hdr->size);
+			ft_printf(PREFIX"[%u] Block: "C_BLU"%p"C_RESET" - Block_hdr: "C_BLU"%p"C_RESET" - size: "C_BLU"%u"C_RESET"\n", i, block, block_hdr, block_hdr->size);
 		block = block_hdr + 1;
 	}
 }
@@ -25,9 +25,12 @@ void	show_alloc_mem()
 {
 	t_page_hdr	*page = g_page;
 	
+	ft_printf(PREFIX"Alloc Memory:\n");
+	int i = 0;
 	while (page)
 	{
-		ft_printf(PREFIX"Page Hdr : "C_BLU"%p\n"C_RESET, page);
+		ft_printf(PREFIX"[%d] Page Hdr : "C_BLU"%p\n"C_RESET, i, page);
+		i++;
 		print_blocks(page);
 		if (page->next)
 			ft_printf("\n");

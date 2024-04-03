@@ -2,7 +2,7 @@
 #define LIBFT_H
 
 #include <stddef.h>
-#include "ft_malloc.h"
+#include "malloc.h"
 #include <unistd.h>
 #include "list.h"
 #include "ft_printf.h"

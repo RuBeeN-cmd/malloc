@@ -14,7 +14,8 @@ SRC = malloc.c \
 		print.c \
 		page.c \
 		free.c \
-		realloc.c
+		realloc.c \
+		collector.c
 
 NAME = $(basename $(LNAME))_$(HOSTTYPE).so
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
@@ -57,7 +58,6 @@ clean:
 fclean: clean
 	@printf "$(_RED)Cleaning $(NAME)...$(_END)\n"
 	@rm -f $(NAME) $(LNAME)
-	@make -C test fclean
 
 re: fclean all
 

@@ -1,4 +1,4 @@
-#include "ft_malloc.h"
+#include "malloc.h"
 
 /**
  * @brief The init_page() function initializes a page.
@@ -9,7 +9,7 @@
 */
 t_page_hdr	*init_page(size_t page_size, uint16_t block_size, uint16_t block_num)
 {
-	t_page_hdr	*page;
+	t_page_hdr		*page;
 
 	page = mmap(NULL, page_size, PROT_READ | PROT_WRITE, 0x20 | MAP_PRIVATE, -1, 0); // 0x20 = MAP_ANONYMOUS
 	if (page == MAP_FAILED)
@@ -57,7 +57,7 @@ t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, uint16_t block_size, u
 */
 t_page_hdr	*get_page(t_page_hdr *page, void *block)
 {
-	if (!page)
+	if (!page || !block)
 		return (NULL);
 	if (block < (void *) page || block >= ((void *) (page + 1)) + page->block_num * (page->block_size + BLOCK_META_SIZE))
 		return (get_page(page->next, block));
@@ -108,4 +108,30 @@ int	is_empty_page(t_page_hdr *page)
 		current_block = block_hdr + 1;
 	}
 	return (1);
+}
+
+/**
+ * @brief The free_page() function frees a page.
+ * @param page The page list to free.
+ * @param page_to_free The page to free.
+*/
+void	free_page(t_page_hdr **page, t_page_hdr *page_to_free)
+{
+	t_page_hdr	*current_page = *page;
+	t_page_hdr	*prev_page = NULL;
+
+	while (current_page)
+	{
+		if (current_page == page_to_free)
+		{
+			if (prev_page)
+				prev_page->next = current_page->next;
+			else
+				*page = current_page->next;
+			munmap(current_page, current_page->block_num * (current_page->block_size + BLOCK_META_SIZE) + PAGE_META_SIZE);
+			return ;
+		}
+		prev_page = current_page;
+		current_page = current_page->next;
+	}
 }

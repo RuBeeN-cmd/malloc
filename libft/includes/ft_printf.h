@@ -3,7 +3,7 @@
 
 # include <stdarg.h>
 # include <unistd.h>
-#include "ft_malloc.h"
+#include "malloc.h"
 # include "libft.h"
 
 int		ft_printf(const char *str, ...);

@@ -1,4 +1,4 @@
-#include "ft_malloc.h"
+#include "malloc.h"
 
 /**
  * @brief The get_block_hdr() function gets a block header from a block.
@@ -53,6 +53,7 @@ void	*realloc_block(void *ptr, size_t size, t_block_hdr *block_hdr)
  */
 void	*realloc(void *ptr, size_t size)
 {
+
 	if (!ptr)
 		return (malloc(size));
 	if (!size)
@@ -60,6 +61,7 @@ void	*realloc(void *ptr, size_t size)
 		free(ptr);
 		return (NULL);
 	}
+	pthread_mutex_lock(&g_mutex);
 	t_page_hdr	*page = get_page(g_page, ptr);
 	if (!page || !is_in_page(page, ptr))
 	{
@@ -73,5 +75,7 @@ void	*realloc(void *ptr, size_t size)
 		block_hdr->size = size;
 		return (ptr);
 	}
-	return (realloc_block(ptr, size, block_hdr));
+	void	*new_ptr = realloc_block(ptr, size, block_hdr);
+	pthread_mutex_unlock(&g_mutex);
+	return (new_ptr);
 }

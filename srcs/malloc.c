@@ -1,4 +1,4 @@
-#include "ft_malloc.h"
+#include "malloc.h"
 
 t_page_hdr	*g_page = NULL;
 pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -92,16 +92,22 @@ void	pre_allocate()
  */
 void	*malloc(size_t size)
 {
+	pthread_mutex_lock(&g_mutex);
 	void	*block = NULL;
+	(void) size;
 	if (!g_page)
 		pre_allocate();
 	if (!size)
+	{
+		pthread_mutex_unlock(&g_mutex);
 		return (NULL);
+	}
 	if (size <= TINY_BLOCK_SIZE)
 		block = define_block(size, TINY_PAGE_SIZE, TINY_BLOCK_SIZE, TINY_BLOCK_NUM);
 	else if (size <= SMALL_BLOCK_SIZE)
 		block = define_block(size, SMALL_PAGE_SIZE, SMALL_BLOCK_SIZE, SMALL_BLOCK_NUM);
 	else
 		block = define_block(size, ((size + PAGE_META_SIZE + BLOCK_META_SIZE) + PAGE_SIZE - 1) / PAGE_SIZE * PAGE_SIZE, size, 1);
+	pthread_mutex_unlock(&g_mutex);
 	return (block);
 }

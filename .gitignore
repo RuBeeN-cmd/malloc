@@ -4,3 +4,4 @@ objs
 .vscode
 *.so
 a.out
+tester

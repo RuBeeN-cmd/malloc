@@ -15,12 +15,13 @@ void	*find_free_block(t_page_hdr *page)
 
 	if (!page || page->phys_block_num >= page->block_num)
 		return (NULL);
-	block = page + 1;
+	block_hdr = (t_block_hdr *)(page + 1);
+	block = block_hdr + 1;
 	for (uint32_t i = 0; i < page->phys_block_num; i++)
 	{
-		block_hdr = block + page->block_size;
 		if (!block_hdr->size)
 			return (block);
+		block_hdr = block + page->block_size;
 		block = block_hdr + 1;
 	}
 	page->phys_block_num++;
@@ -54,13 +55,8 @@ void	*find_block(t_page_hdr *page, uint32_t block_size)
  * @param block_num The number of blocks.
  * @return On success, a pointer to the memory block allocated by the function. NULL otherwise.
 */
-void	*define_block(uint64_t size, size_t page_size, uint16_t block_size, uint16_t block_num)
+void	*define_block(size_t size, size_t page_size, size_t block_size, size_t block_num)
 {
-	ft_printf("Size: "C_CYN"%u"C_RESET
-	", Page Size: "C_CYN"%u"C_RESET
-	", Block Size: "C_CYN"%u"C_RESET
-	", Block Num: "C_CYN"%u"C_RESET
-	"\n", size, page_size, block_size, block_num); // (debug)
 	t_block_hdr	*block_hdr;
 	void		*block = NULL;
 	t_page_hdr	*page = g_page;
@@ -72,10 +68,10 @@ void	*define_block(uint64_t size, size_t page_size, uint16_t block_size, uint16_
 		page = add_page(&g_page, page_size, block_size, block_num);
 		if (!page)
 			return (NULL);
-		block = page + 1;
+		block = (void *) (page + 1) + BLOCK_META_SIZE;
 		page->phys_block_num++;
 	}
-	block_hdr = block + block_size;
+	block_hdr = block - BLOCK_META_SIZE;
 	block_hdr->size = size;
 	return (block);
 }
@@ -114,7 +110,11 @@ void	*malloc(size_t size)
 	else if (size <= SMALL_BLOCK_SIZE)
 		block = define_block(size, SMALL_PAGE_SIZE, SMALL_BLOCK_SIZE, SMALL_BLOCK_NUM);
 	else
-		block = define_block(size, ((size + PAGE_META_SIZE + BLOCK_META_SIZE) + PAGE_SIZE - 1) / PAGE_SIZE * PAGE_SIZE, size, 1);
+	{
+		size_t	page_size = ((size + PAGE_META_SIZE + BLOCK_META_SIZE) + PAGE_SIZE - 1) / PAGE_SIZE * PAGE_SIZE;
+		size_t	block_size = page_size - PAGE_META_SIZE - BLOCK_META_SIZE;
+		block = define_block(size, page_size, block_size, 1);
+	}
 	pthread_mutex_unlock(&g_mutex);
 	return (block);
 }

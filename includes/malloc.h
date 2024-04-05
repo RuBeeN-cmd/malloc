@@ -21,7 +21,7 @@
 #define PREFIX		C_CYN"[ft_malloc] "C_RESET
 
 #define PAGE_SIZE				((size_t) getpagesize())
-#define TINY_BLOCK_SIZE			((size_t) 128 - BLOCK_META_SIZE)
+#define TINY_BLOCK_SIZE			((size_t) 128 + 16 - BLOCK_META_SIZE)
 #define SMALL_BLOCK_SIZE		((size_t) 1024 + 16 - BLOCK_META_SIZE)
 #define MIN_BLOCK_PER_PAGE		((size_t) 100)
 
@@ -48,7 +48,7 @@ struct s_block_hdr
 
 struct __attribute__((packed)) s_page_hdr
 {
-	uint32_t	block_size;
+	uint64_t	block_size;
 	uint32_t	block_num;
 	uint32_t	phys_block_num;
 	t_page_hdr	*next;
@@ -63,8 +63,8 @@ void	*realloc(void *ptr, size_t size);
 
 void	show_alloc_mem();
 
-t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, uint16_t block_size, uint16_t block_num);
-t_page_hdr	*init_page(size_t page_size, uint16_t block_size, uint16_t block_num);
+t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, size_t block_size, size_t block_num);
+t_page_hdr	*init_page(size_t page_size, size_t block_size, size_t block_num);
 t_page_hdr	*get_page(t_page_hdr *page, void *block);
 int			is_in_page(t_page_hdr *page, void *block);
 int			is_empty_page(t_page_hdr *page);

@@ -6,15 +6,15 @@
 */
 void	print_blocks(t_page_hdr *page)
 {
-	void		*block = page + 1;
-	t_block_hdr	*block_hdr;
+	void		*block;
+	t_block_hdr	*block_hdr = (t_block_hdr *)(page + 1);
 
 	for (size_t i = 0; i < page->phys_block_num; i++)
 	{
-		block_hdr = block + page->block_size;
+		block = block_hdr + 1;
 		if (block_hdr->size)
 			ft_printf(PREFIX"[%u] Block: "C_BLU"%p"C_RESET" - Block_hdr: "C_BLU"%p"C_RESET" - size: "C_BLU"%u"C_RESET"\n", i, block, block_hdr, block_hdr->size);
-		block = block_hdr + 1;
+		block_hdr = block + page->block_size;
 	}
 }
 
@@ -31,8 +31,8 @@ void	show_alloc_mem()
 		ft_printf(PREFIX"[%d] Page Hdr : "C_BLU"%p\n"C_RESET, i, page);
 		i++;
 		print_blocks(page);
-		if (page->next)
-			ft_printf("\n");
 		page = page->next;
+		if (page)
+			ft_printf("\n");
 	}
 }

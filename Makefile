@@ -21,7 +21,7 @@ NAME = $(basename $(LNAME))_$(HOSTTYPE).so
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -fPIC -pthread
+CFLAGS = -Wall -Werror -Wextra -fPIC -pthread -g3
 INC = -Iincludes -I$(dir $(LIB))/includes
 
 LIBFT = libft/libft.a

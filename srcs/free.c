@@ -35,7 +35,7 @@ void	free(void *ptr)
 		pthread_mutex_unlock(&g_mutex);
 		return ;
 	}
-	ft_bzero(ptr, page->block_size + BLOCK_META_SIZE);
+	ft_bzero(ptr - BLOCK_META_SIZE, BLOCK_META_SIZE);
 	if (get_page_index(page) > 1 && is_empty_page(page))
 		free_page(&g_page, page);
 	pthread_mutex_unlock(&g_mutex);

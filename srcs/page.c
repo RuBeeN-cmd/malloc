@@ -7,7 +7,7 @@
  * @param block_num The number of blocks.
  * @return On success, a pointer to the memory block allocated by the function. NULL otherwise.
 */
-t_page_hdr	*init_page(size_t page_size, uint16_t block_size, uint16_t block_num)
+t_page_hdr	*init_page(size_t page_size, size_t block_size, size_t block_num)
 {
 	t_page_hdr		*page;
 
@@ -29,7 +29,7 @@ t_page_hdr	*init_page(size_t page_size, uint16_t block_size, uint16_t block_num)
  * @param block_num The number of blocks.
  * @return On success, a pointer to the memory block allocated by the function. NULL otherwise.
 */
-t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, uint16_t block_size, uint16_t block_num)
+t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, size_t block_size, size_t block_num)
 {
 	t_page_hdr	*new_page;
 	t_page_hdr	*current;
@@ -73,18 +73,18 @@ t_page_hdr	*get_page(t_page_hdr *page, void *block)
 */
 int	is_in_page(t_page_hdr *page, void *block)
 {
-	t_block_hdr	*block_hdr;
-	void		*current_block;
+	t_block_hdr	*crt_block_hdr;
+	void		*crt_block;
 
 	if (!page || !block)
 		return (0);
-	current_block = page + 1;
+	crt_block_hdr = (t_block_hdr *) (page + 1);
 	for (uint32_t i = 0; i < page->phys_block_num; i++)
 	{
-		block_hdr = current_block + page->block_size;
-		if (current_block == block)
-			return (block_hdr->size != 0);
-		current_block = block_hdr + 1;
+		crt_block = (void *) crt_block_hdr + BLOCK_META_SIZE;
+		if (crt_block == block)
+			return (crt_block_hdr->size != 0);
+		crt_block_hdr = crt_block + page->block_size;
 	}
 	return (0);
 }

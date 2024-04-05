@@ -9,7 +9,7 @@ void	print_blocks(t_page_hdr *page)
 	void		*block = page + 1;
 	t_block_hdr	*block_hdr;
 
-	for (size_t i = 0; i < page->block_num; i++)
+	for (size_t i = 0; i < page->phys_block_num; i++)
 	{
 		block_hdr = block + page->block_size;
 		if (block_hdr->size)
@@ -24,7 +24,6 @@ void	print_blocks(t_page_hdr *page)
 void	show_alloc_mem()
 {
 	t_page_hdr	*page = g_page;
-	
 	ft_printf(PREFIX"Alloc Memory:\n");
 	int i = 0;
 	while (page)

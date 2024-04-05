@@ -13,17 +13,18 @@ void	*find_free_block(t_page_hdr *page)
 	t_block_hdr	*block_hdr;
 	void		*block;
 
-	if (!page)
+	if (!page || page->phys_block_num >= page->block_num)
 		return (NULL);
 	block = page + 1;
-	for (uint32_t i = 0; i < page->block_num; i++)
+	for (uint32_t i = 0; i < page->phys_block_num; i++)
 	{
 		block_hdr = block + page->block_size;
 		if (!block_hdr->size)
 			return (block);
 		block = block_hdr + 1;
 	}
-	return (NULL);
+	page->phys_block_num++;
+	return (block);
 }
 
 /**
@@ -36,7 +37,7 @@ void	*find_block(t_page_hdr *page, uint32_t block_size)
 {
 	if (!page)
 		return (NULL);
-	if (page->block_size == block_size)
+	if (page->block_size == block_size && page->phys_block_num < page->block_num)
 	{
 		void *block = find_free_block(page);
 		if (block)
@@ -55,6 +56,11 @@ void	*find_block(t_page_hdr *page, uint32_t block_size)
 */
 void	*define_block(uint64_t size, size_t page_size, uint16_t block_size, uint16_t block_num)
 {
+	ft_printf("Size: "C_CYN"%u"C_RESET
+	", Page Size: "C_CYN"%u"C_RESET
+	", Block Size: "C_CYN"%u"C_RESET
+	", Block Num: "C_CYN"%u"C_RESET
+	"\n", size, page_size, block_size, block_num); // (debug)
 	t_block_hdr	*block_hdr;
 	void		*block = NULL;
 	t_page_hdr	*page = g_page;
@@ -67,6 +73,7 @@ void	*define_block(uint64_t size, size_t page_size, uint16_t block_size, uint16_
 		if (!page)
 			return (NULL);
 		block = page + 1;
+		page->phys_block_num++;
 	}
 	block_hdr = block + block_size;
 	block_hdr->size = size;
@@ -94,7 +101,7 @@ void	*malloc(size_t size)
 {
 	pthread_mutex_lock(&g_mutex);
 	void	*block = NULL;
-	(void) size;
+
 	if (!g_page)
 		pre_allocate();
 	if (!size)

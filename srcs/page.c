@@ -11,12 +11,13 @@ t_page_hdr	*init_page(size_t page_size, uint16_t block_size, uint16_t block_num)
 {
 	t_page_hdr		*page;
 
-	page = mmap(NULL, page_size, PROT_READ | PROT_WRITE, 0x20 | MAP_PRIVATE, -1, 0); // 0x20 = MAP_ANONYMOUS
+	page = mmap(NULL, page_size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 	if (page == MAP_FAILED)
 		return (NULL);
 	page->next = NULL;
 	page->block_size = block_size;
 	page->block_num = block_num;
+	page->phys_block_num = 0;
 	return (page);
 }
 
@@ -78,7 +79,7 @@ int	is_in_page(t_page_hdr *page, void *block)
 	if (!page || !block)
 		return (0);
 	current_block = page + 1;
-	for (uint32_t i = 0; i < page->block_num; i++)
+	for (uint32_t i = 0; i < page->phys_block_num; i++)
 	{
 		block_hdr = current_block + page->block_size;
 		if (current_block == block)
@@ -100,7 +101,7 @@ int	is_empty_page(t_page_hdr *page)
 
 	if (!page)
 		return (0);
-	for (uint32_t i = 0; i < page->block_num; i++)
+	for (uint32_t i = 0; i < page->phys_block_num; i++)
 	{
 		block_hdr = current_block + page->block_size;
 		if (block_hdr->size)

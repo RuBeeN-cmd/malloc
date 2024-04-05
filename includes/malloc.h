@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/resource.h>
 
 #define C_RED		"\x1b[31m"
 #define C_GRN		"\x1b[32m"
@@ -49,6 +50,7 @@ struct __attribute__((packed)) s_page_hdr
 {
 	uint32_t	block_size;
 	uint32_t	block_num;
+	uint32_t	phys_block_num;
 	t_page_hdr	*next;
 };
 

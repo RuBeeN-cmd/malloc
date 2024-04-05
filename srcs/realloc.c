@@ -14,7 +14,7 @@ t_block_hdr	*get_block_hdr(t_page_hdr *page, void *block)
 	if (!page || !block)
 		return (NULL);
 	current_block = page + 1;
-	for (uint32_t i = 0; i < page->block_num; i++)
+	for (uint32_t i = 0; i < page->phys_block_num; i++)
 	{
 		block_hdr = current_block + page->block_size;
 		if (current_block == block)

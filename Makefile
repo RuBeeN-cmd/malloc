@@ -11,7 +11,8 @@ endif
 LNAME = libft_malloc.so
 
 SRC = malloc.c \
-		print.c \
+		show_alloc_mem.c \
+		show_alloc_mem_hex.c \
 		page.c \
 		free.c \
 		realloc.c \

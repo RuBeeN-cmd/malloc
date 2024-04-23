@@ -62,6 +62,8 @@ void	free(void *ptr);
 void	*realloc(void *ptr, size_t size);
 
 void	show_alloc_mem();
+void	show_alloc_mem_hex();
+
 
 t_page_hdr	*add_page(t_page_hdr **page, size_t page_size, size_t block_size, size_t block_num);
 t_page_hdr	*init_page(size_t page_size, size_t block_size, size_t block_num);

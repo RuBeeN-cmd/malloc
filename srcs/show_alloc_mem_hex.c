@@ -10,7 +10,7 @@ void	print_byte(uint8_t byte)
 
 	hex[0] = "0123456789ABCDEF"[byte / 16];
 	hex[1] = "0123456789ABCDEF"[byte % 16];
-	ft_printf("%c%c", hex[0], hex[1]);
+	ft_printf_fd(1, "%c%c", hex[0], hex[1]);
 }
 
 /**
@@ -30,22 +30,22 @@ void	print_blocks_hex(t_page_hdr *page)
 			for (size_t i = 0; i < BLOCK_META_SIZE; i++)
 			{
 				if (!(i % 8))
-					ft_printf("%p  "C_GRN, (uint8_t *)block_hdr + i);
+					ft_printf_fd(1, "%p  "C_GRN, (uint8_t *)block_hdr + i);
 				print_byte(*((uint8_t *)block_hdr + i));
 				if (i % 8 == 7)
-					ft_printf("\n"C_RESET);
+					ft_printf_fd(1, "\n"C_RESET);
 				else
-					ft_printf(" ");
+					ft_printf_fd(1, " ");
 			}
 			for (size_t i = 0; i < page->block_size; i++)
 			{
 				if (!(i % 8))
-					ft_printf("%p  "C_BLU, block + i);
+					ft_printf_fd(1, "%p  "C_BLU, block + i);
 				print_byte(*((uint8_t *)block + i));
 				if (i % 8 == 7)
-					ft_printf("\n"C_RESET);
+					ft_printf_fd(1, "\n"C_RESET);
 				else
-					ft_printf(" ");
+					ft_printf_fd(1, " ");
 			}
 		}
 		block_hdr = block + page->block_size;
@@ -63,16 +63,16 @@ void	show_alloc_mem_hex()
 		for (size_t i = 0; i < PAGE_META_SIZE; i++)
 		{
 			if (!(i % 8))
-				ft_printf("%p  "C_RED, (uint8_t *)page + i);
+				ft_printf_fd(1, "%p  "C_RED, (uint8_t *)page + i);
 			print_byte(*((uint8_t *)page + i));
 			if (i % 8 == 7)
-				ft_printf("\n"C_RESET);
+				ft_printf_fd(1, "\n"C_RESET);
 			else
-				ft_printf(" ");
+				ft_printf_fd(1, " ");
 		}
 		print_blocks_hex(page);
 		page = page->next;
 		if (page)
-			ft_printf("---------------------------------------\n");
+			ft_printf_fd(1, "---------------------------------------\n");
 	}
 }

@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/resource.h>
+#include <fcntl.h>
 
 #define C_RED		"\x1b[31m"
 #define C_GRN		"\x1b[32m"
@@ -74,5 +75,6 @@ void		free_page(t_page_hdr **page, t_page_hdr *page_to_free);
 
 void		collector();
 
+int			get_debug_fd();
 
 #endif

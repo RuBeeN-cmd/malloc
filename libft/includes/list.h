@@ -1,7 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include "malloc.h"
+#include <stdlib.h>
 
 typedef struct s_list
 {

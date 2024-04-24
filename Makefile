@@ -16,7 +16,8 @@ SRC = malloc.c \
 		page.c \
 		free.c \
 		realloc.c \
-		collector.c
+		collector.c \
+		logger.c
 
 NAME = $(basename $(LNAME))_$(HOSTTYPE).so
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

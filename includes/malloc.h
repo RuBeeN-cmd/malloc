@@ -74,6 +74,7 @@ int			is_empty_page(t_page_hdr *page);
 void		free_page(t_page_hdr **page, t_page_hdr *page_to_free);
 
 void		collector();
+void		check_leaks();
 
 int			get_debug_fd();
 void		print_malloc(size_t size);

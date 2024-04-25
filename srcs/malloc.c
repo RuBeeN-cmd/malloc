@@ -88,6 +88,16 @@ void	pre_allocate()
 }
 
 /**
+ * @brief The enable_garbage_collector() function enable the garbage collector if the env variable "MALLOC_COLLECTOR" equal to "atexit"
+*/
+void	enable_garbage_collector()
+{
+	char *garbage_collector = getenv("MALLOC_COLLECTOR");
+	if (garbage_collector && !ft_strncmp(garbage_collector, "atexit", 6))
+		atexit(collector);
+}
+
+/**
  * @brief The malloc() function allocates size bytes and returns a pointer to the allocated memory.
  * If size is 0, then malloc() returns either NULL.
  * @param size The size of the memory that needs to be allocated.
@@ -98,8 +108,12 @@ void	*malloc(size_t size)
 	pthread_mutex_lock(&g_mutex);
 	void	*block = NULL;
 
+	print_malloc(size);
 	if (!g_page)
+	{
+		enable_garbage_collector();
 		pre_allocate();
+	}
 	if (!size)
 	{
 		pthread_mutex_unlock(&g_mutex);

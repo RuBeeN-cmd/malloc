@@ -16,7 +16,7 @@ int	ft_treat_type(int fd, const char c, va_list args)
 	else if (c == 'd' || c == 'i')
 		return (print_nbr_fd(va_arg(args, int), fd));
 	else if (c == 'u')
-		return (print_unbr_fd(va_arg(args, unsigned int), fd));
+		return (print_unbr_fd(va_arg(args, unsigned long), fd));
 	else if (c == 'x')
 	{
 		base = "0123456789abcdef";

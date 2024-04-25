@@ -13,7 +13,7 @@ void	print_blocks(t_page_hdr *page)
 	{
 		block = block_hdr + 1;
 		if (block_hdr->size)
-			ft_printf_fd(1, PREFIX"[%u] Block: "C_BLU"%p"C_RESET" - Block_hdr: "C_BLU"%p"C_RESET" - size: "C_BLU"%u"C_RESET"\n", i, block, block_hdr, block_hdr->size);
+			ft_printf_fd(1, PREFIX"[%u] Block: "C_BLU"%p"C_RESET" - "C_BLU"%p"C_RESET" - size: "C_BLU"%u"C_RESET"\n", i, block, block + block_hdr->size, block_hdr->size);
 		block_hdr = block + page->block_size;
 	}
 }
@@ -28,7 +28,12 @@ void	show_alloc_mem()
 	int i = 0;
 	while (page)
 	{
-		ft_printf_fd(1, PREFIX"[%d] Page Hdr : "C_BLU"%p\n"C_RESET, i, page);
+		char *type = "Large";
+		if (page->block_size == TINY_BLOCK_SIZE)
+			type = "Tiny";
+		else if (page->block_size == SMALL_BLOCK_SIZE)
+			type = "Small";
+		ft_printf_fd(1, PREFIX"[%d] %s Page : "C_BLU"%p\n"C_RESET, i, type, page);
 		i++;
 		print_blocks(page);
 		page = page->next;

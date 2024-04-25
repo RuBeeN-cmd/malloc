@@ -59,6 +59,6 @@ int	print_addr_fd(unsigned long long addr, int fd)
 {
 	if (addr == 0)
 		return (print_str_fd("(nil)", fd));
-	print_str_fd("0x", 1);
+	print_str_fd("0x", fd);
 	return (print_nbrbase_fd(addr, fd, "0123456789abcdef") + 2);
 }

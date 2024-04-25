@@ -39,8 +39,10 @@ void	*realloc_block(void *ptr, size_t size, t_block_hdr *block_hdr)
 		// Malloc failed
 		return (NULL);
 	}
+	pthread_mutex_lock(&g_mutex);
 	size_t	copy_size = block_hdr->size < size ? block_hdr->size : size;
 	ft_memcpy(new_ptr, ptr, copy_size);
+	pthread_mutex_unlock(&g_mutex);
 	free(ptr);
 	return (new_ptr);
 }
@@ -53,6 +55,9 @@ void	*realloc_block(void *ptr, size_t size, t_block_hdr *block_hdr)
  */
 void	*realloc(void *ptr, size_t size)
 {
+	pthread_mutex_lock(&g_mutex);
+	print_realloc(ptr, size);
+	pthread_mutex_unlock(&g_mutex);
 	if (!ptr)
 		return (malloc(size));
 	if (!size)
@@ -65,6 +70,7 @@ void	*realloc(void *ptr, size_t size)
 	if (!page || !is_in_page(page, ptr))
 	{
 		// Invalid pointer
+		pthread_mutex_unlock(&g_mutex);
 		return (NULL);
 	}
 	t_block_hdr	*block_hdr = get_block_hdr(page, ptr);
@@ -72,9 +78,10 @@ void	*realloc(void *ptr, size_t size)
 	{
 		// No need to reallocate
 		block_hdr->size = size;
+		pthread_mutex_unlock(&g_mutex);
 		return (ptr);
 	}
-	void	*new_ptr = realloc_block(ptr, size, block_hdr);
 	pthread_mutex_unlock(&g_mutex);
+	void	*new_ptr = realloc_block(ptr, size, block_hdr);
 	return (new_ptr);
 }

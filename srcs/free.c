@@ -28,6 +28,7 @@ int	get_page_index(t_page_hdr *page)
 void	free(void *ptr)
 {
 	pthread_mutex_lock(&g_mutex);
+	print_free(ptr);
 	t_page_hdr	*page = get_page(g_page, ptr);
 	if (!page || !is_in_page(page, ptr))
 	{

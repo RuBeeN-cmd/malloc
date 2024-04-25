@@ -1,0 +1,5 @@
+BONUS:
+- env variable (MALLOC_DEBUG, MALLOC_DEBUG_PATH, MALLOC_COLLECTOR)
+- garbage collector
+- dump hex
+- logger

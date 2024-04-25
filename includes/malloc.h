@@ -19,7 +19,7 @@
 #define C_WHT		"\x1b[37m"
 #define C_RESET		"\x1b[0m"
 
-#define PREFIX		C_CYN"[ft_malloc] "C_RESET
+#define PREFIX		C_CYN"[malloc] "C_RESET
 
 #define PAGE_SIZE				((size_t) getpagesize())
 #define TINY_BLOCK_SIZE			((size_t) 128 + 16 - BLOCK_META_SIZE)
@@ -76,5 +76,8 @@ void		free_page(t_page_hdr **page, t_page_hdr *page_to_free);
 void		collector();
 
 int			get_debug_fd();
+void		print_malloc(size_t size);
+void		print_free(void *ptr);
+void		print_realloc(void *ptr, size_t size);
 
 #endif

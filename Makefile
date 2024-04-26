@@ -63,14 +63,7 @@ fclean: clean
 
 re: fclean all
 
-test: $(LNAME)
-	@printf "$(_YELLOW)Testing $(LNAME)...$(_END)\n"
-	@make -C test re
-	@make -C test run
+tester:
+	@make -sC tester all test ft_test
 
-testv: $(LNAME)
-	@printf "$(_YELLOW)Testing $(LNAME)...$(_END)\n"
-	@make -C test
-	@make -C test runv
-
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re tester

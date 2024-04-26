@@ -93,6 +93,7 @@ void	pre_allocate()
 void	enable_at_exit()
 {
 	char *env;
+	atexit(close_fd);
 	env = getenv("MALLOC_LEAKS");
 	if (env && !ft_strncmp(env, "atexit", 6))
 		atexit(check_leaks);

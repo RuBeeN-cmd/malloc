@@ -80,5 +80,6 @@ int			get_debug_fd();
 void		print_malloc(size_t size);
 void		print_free(void *ptr);
 void		print_realloc(void *ptr, size_t size);
+void		close_fd();
 
 #endif

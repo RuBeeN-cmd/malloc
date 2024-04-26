@@ -76,3 +76,11 @@ void	print_realloc(void *ptr, size_t size)
 	}
 	ft_printf_fd(fd, "%srealloc(%p, %u)%s called\n", prefix, ptr, size, reset);
 }
+
+void	close_fd()
+{
+	int	fd = get_debug_fd();
+
+	if (fd > 2)
+		close(fd);
+}
